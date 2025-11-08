@@ -1,11 +1,10 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Image from "next/image"
-import { ChevronDown, Home, Users, BookOpen, DollarSign, Download, LifeBuoy, Settings, Award } from "lucide-react"
+import { ChevronDown, Home, BookOpen, FileText, Users, Award, User, LifeBuoy, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface MenuItem {
@@ -16,10 +15,10 @@ interface MenuItem {
   href?: string
 }
 
-export default function CollegeSidebar() {
+export default function TutorSidebar() {
   const router = useRouter()
   const pathname = usePathname()
-  const [expandedItems, setExpandedItems] = useState<string[]>(["student-management"])
+  const [expandedItems, setExpandedItems] = useState<string[]>(["help-support"])
 
   const toggleExpand = (itemId: string) => {
     setExpandedItems((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]))
@@ -30,62 +29,62 @@ export default function CollegeSidebar() {
       id: "dashboard",
       label: "Dashboard",
       icon: <Home className="w-5 h-5" />,
-      href: "/college-admin/dashboard",
+      href: "/tutor-portal/dashboard",
     },
     {
-      id: "student-management",
-      label: "Student Management",
+      id: "assigned-courses",
+      label: "My Assigned Courses",
+      icon: <BookOpen className="w-5 h-5" />,
+      href: "/tutor-portal/assigned-courses",
+    },
+    {
+      id: "reports",
+      label: "My Reports",
+      icon: <FileText className="w-5 h-5" />,
+      href: "/tutor-portal/reports",
+    },
+    {
+      id: "my-students",
+      label: "My Students",
       icon: <Users className="w-5 h-5" />,
-      subItems: [
-        {
-          id: "applications",
-          label: "Applications",
-          icon: <BookOpen className="w-4 h-4" />,
-          href: "/college-admin/student-management/applications",
-        },
-        {
-          id: "enrolled-students",
-          label: "Enrolled Students",
-          icon: <Users className="w-4 h-4" />,
-          href: "/college-admin/student-management/enrolled",
-        },
-        {
-          id: "certified-students",
-          label: "Certified Students",
-          icon: <Award className="w-4 h-4" />,
-          href: "/college-admin/student-management/certified",
-        },
-        {
-          id: "download-certificates",
-          label: "Download Certificates",
-          icon: <Download className="w-4 h-4" />,
-          href: "/college-admin/student-management/download-certificates",
-        },
-        {
-          id: "student-profiles",
-          label: "Student Profiles",
-          icon: <Users className="w-4 h-4" />,
-          href: "/college-admin/student-management/profiles",
-        },
-      ],
+      href: "/tutor-portal/my-students",
     },
     {
-      id: "payments",
-      label: "Payments",
-      icon: <DollarSign className="w-5 h-5" />,
-      href: "/college-admin/payments",
+      id: "completed-students",
+      label: "My Completed Students",
+      icon: <Award className="w-5 h-5" />,
+      href: "/tutor-portal/completed-students",
     },
     {
       id: "help-support",
       label: "Help & Support",
       icon: <LifeBuoy className="w-5 h-5" />,
-      href: "/college-admin/help-support",
+      subItems: [
+        {
+          id: "student-help",
+          label: "Student Help",
+          icon: <Users className="w-4 h-4" />,
+          href: "/tutor-portal/help-support/student-help",
+        },
+        {
+          id: "tutor-help",
+          label: "Tutor Help",
+          icon: <LifeBuoy className="w-4 h-4" />,
+          href: "/tutor-portal/help-support/tutor-help",
+        },
+      ],
+    },
+    {
+      id: "profile",
+      label: "Profile",
+      icon: <User className="w-5 h-5" />,
+      href: "/tutor-portal/profile",
     },
     {
       id: "account",
       label: "Account",
-      icon: <Settings className="w-5 h-5" />,
-      href: "/college-admin/account",
+      icon: <User className="w-5 h-5" />,
+      href: "/tutor-portal/account",
     },
   ]
 
@@ -152,9 +151,7 @@ export default function CollegeSidebar() {
 
       {/* Menu Section */}
       <div className="flex-1 overflow-y-auto">
-        <div className="px-3 py-4">
-          <div className="space-y-1">{menuItems.map((item) => renderMenuItem(item))}</div>
-        </div>
+        <div className="px-3 py-4 space-y-1">{menuItems.map((item) => renderMenuItem(item))}</div>
       </div>
 
       {/* Footer */}
@@ -162,17 +159,19 @@ export default function CollegeSidebar() {
         <div className="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2E008F] to-blue-600 flex items-center justify-center">
-              <span className="text-white text-sm font-bold">CA</span>
+              <span className="text-white text-sm font-bold">DR</span>
             </div>
             <div className="flex-1">
-              <p className="text-xs font-semibold text-gray-900">College Admin</p>
-              <p className="text-xs text-gray-500">Administrator</p>
+              <p className="text-xs font-semibold text-gray-900">Dr. Rahman</p>
+              <p className="text-xs text-gray-500">Tutor</p>
             </div>
           </div>
-          <button className="text-gray-400 hover:text-gray-600 transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+          <button
+            onClick={() => router.push("/login")}
+            className="text-gray-400 hover:text-red-600 transition-colors"
+            title="Logout"
+          >
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
