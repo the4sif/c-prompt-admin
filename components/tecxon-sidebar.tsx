@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
 import Image from "next/image"
 import {
   ChevronDown,
@@ -31,8 +32,9 @@ interface MenuItem {
 }
 
 export default function TecxonSidebar() {
+  const router = useRouter()
+  const pathname = usePathname()
   const [expandedItems, setExpandedItems] = useState<string[]>(["enrolled"])
-  const [activeItem, setActiveItem] = useState("dashboard")
 
   const toggleExpand = (itemId: string) => {
     setExpandedItems((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]))
@@ -50,9 +52,19 @@ export default function TecxonSidebar() {
       label: "Enrolled",
       icon: <Users className="w-5 h-5" />,
       subItems: [
-        { id: "applications", label: "Applications", icon: <Mail className="w-4 h-4" /> },
-        { id: "internships", label: "Internships", icon: <Briefcase className="w-4 h-4" /> },
-        { id: "courses", label: "Courses", icon: <BookOpen className="w-4 h-4" /> },
+        {
+          id: "applications",
+          label: "Applications",
+          icon: <Mail className="w-4 h-4" />,
+          href: "/enrolled/applications",
+        },
+        {
+          id: "internships",
+          label: "Internships",
+          icon: <Briefcase className="w-4 h-4" />,
+          href: "/enrolled/internships",
+        },
+        { id: "courses", label: "Courses", icon: <BookOpen className="w-4 h-4" />, href: "/enrolled/courses" },
       ],
     },
     {
@@ -60,8 +72,18 @@ export default function TecxonSidebar() {
       label: "Course Management",
       icon: <BookOpen className="w-5 h-5" />,
       subItems: [
-        { id: "published-courses", label: "Published Courses", icon: <BookOpen className="w-4 h-4" /> },
-        { id: "new-courses", label: "New Courses", icon: <BookOpen className="w-4 h-4" /> },
+        {
+          id: "published-courses",
+          label: "Published Courses",
+          icon: <BookOpen className="w-4 h-4" />,
+          href: "/course-management/published",
+        },
+        {
+          id: "new-courses",
+          label: "New Courses",
+          icon: <BookOpen className="w-4 h-4" />,
+          href: "/course-management/new",
+        },
       ],
     },
     {
@@ -69,8 +91,18 @@ export default function TecxonSidebar() {
       label: "Internship Management",
       icon: <BriefcaseIcon className="w-5 h-5" />,
       subItems: [
-        { id: "live-internships", label: "Live Internships", icon: <Briefcase className="w-4 h-4" /> },
-        { id: "new-internships", label: "New Internships", icon: <Briefcase className="w-4 h-4" /> },
+        {
+          id: "live-internships",
+          label: "Live Internships",
+          icon: <Briefcase className="w-4 h-4" />,
+          href: "/internship-management/live",
+        },
+        {
+          id: "new-internships",
+          label: "New Internships",
+          icon: <Briefcase className="w-4 h-4" />,
+          href: "/internship-management/new",
+        },
       ],
     },
     {
@@ -78,8 +110,18 @@ export default function TecxonSidebar() {
       label: "Payment",
       icon: <DollarSign className="w-5 h-5" />,
       subItems: [
-        { id: "finance-reports", label: "Finance Reports", icon: <DollarSign className="w-4 h-4" /> },
-        { id: "college-reports", label: "Reports by College", icon: <DollarSign className="w-4 h-4" /> },
+        {
+          id: "finance-reports",
+          label: "Finance Reports",
+          icon: <DollarSign className="w-4 h-4" />,
+          href: "/payment/finance",
+        },
+        {
+          id: "college-reports",
+          label: "Reports by College",
+          icon: <DollarSign className="w-4 h-4" />,
+          href: "/payment/college-reports",
+        },
       ],
     },
     {
@@ -87,8 +129,18 @@ export default function TecxonSidebar() {
       label: "Certification",
       icon: <Award className="w-5 h-5" />,
       subItems: [
-        { id: "internship-certs", label: "Internship Certificates", icon: <Award className="w-4 h-4" /> },
-        { id: "course-certs", label: "Course Certificates", icon: <Award className="w-4 h-4" /> },
+        {
+          id: "internship-certs",
+          label: "Internship Certificates",
+          icon: <Award className="w-4 h-4" />,
+          href: "/certification/internship",
+        },
+        {
+          id: "course-certs",
+          label: "Course Certificates",
+          icon: <Award className="w-4 h-4" />,
+          href: "/certification/course",
+        },
       ],
     },
   ]
@@ -98,64 +150,103 @@ export default function TecxonSidebar() {
       id: "contact",
       label: "Contact",
       icon: <Mail className="w-5 h-5" />,
+      href: "/contact",
     },
     {
       id: "testimonials",
       label: "Testimonials",
       icon: <MessageSquare className="w-5 h-5" />,
+      href: "/testimonials",
     },
     {
       id: "blogs",
       label: "Blogs",
       icon: <Rss className="w-5 h-5" />,
+      href: "/blogs",
     },
     {
       id: "career",
       label: "Career",
       icon: <BriefcaseIcon className="w-5 h-5" />,
+      href: "/career",
     },
     {
       id: "customization",
       label: "Website Customization",
       icon: <Settings className="w-5 h-5" />,
       subItems: [
-        { id: "hero-section", label: "Hero Section", icon: <Settings className="w-4 h-4" /> },
-        { id: "published-hero", label: "Published Hero", icon: <Settings className="w-4 h-4" /> },
-        { id: "placement-logos", label: "Placement Company Logos", icon: <Settings className="w-4 h-4" /> },
-        { id: "floating-alerts", label: "Floating Alerts", icon: <Settings className="w-4 h-4" /> },
+        {
+          id: "hero-section",
+          label: "Hero Section",
+          icon: <Settings className="w-4 h-4" />,
+          href: "/customization/hero",
+        },
+        {
+          id: "published-hero",
+          label: "Published Hero",
+          icon: <Settings className="w-4 h-4" />,
+          href: "/customization/published-hero",
+        },
+        {
+          id: "placement-logos",
+          label: "Placement Company Logos",
+          icon: <Settings className="w-4 h-4" />,
+          href: "/customization/placement-logos",
+        },
+        {
+          id: "floating-alerts",
+          label: "Floating Alerts",
+          icon: <Settings className="w-4 h-4" />,
+          href: "/customization/floating-alerts",
+        },
       ],
     },
     {
       id: "tutor-management",
       label: "Tutor Management",
       icon: <User className="w-5 h-5" />,
+      href: "/tutor-management",
     },
     {
       id: "user-management",
       label: "User Management",
       icon: <Users className="w-5 h-5" />,
       subItems: [
-        { id: "admin-staff", label: "Admin Staff", icon: <User className="w-4 h-4" /> },
-        { id: "institutions", label: "Universities & Colleges", icon: <Users className="w-4 h-4" /> },
+        {
+          id: "admin-staff",
+          label: "Admin Staff",
+          icon: <User className="w-4 h-4" />,
+          href: "/user-management/admin-staff",
+        },
+        {
+          id: "institutions",
+          label: "Universities & Colleges",
+          icon: <Users className="w-4 h-4" />,
+          href: "/user-management/institutions",
+        },
       ],
     },
     {
       id: "help-support",
       label: "Help & Support",
       icon: <LifeBuoy className="w-5 h-5" />,
+      href: "/help-support",
     },
   ]
 
   const renderMenuItem = (item: MenuItem, isSubItem = false) => {
     const isExpanded = expandedItems.includes(item.id)
-    const isActive = activeItem === item.id
+    const isActive = item.href && pathname === item.href
     const hasSubItems = item.subItems && item.subItems.length > 0
+    const isParentActive = item.subItems?.some((subItem) => subItem.href && pathname === subItem.href)
 
     return (
       <div key={item.id}>
         <button
           onClick={() => {
-            setActiveItem(item.id)
+            if (item.href) {
+              router.push(item.href)
+            }
             if (hasSubItems) {
               toggleExpand(item.id)
             }
@@ -163,12 +254,16 @@ export default function TecxonSidebar() {
           className={cn(
             "w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
             isSubItem ? "ml-4 pl-2" : "",
-            isActive ? "bg-[#2E008F] text-white shadow-md" : "text-gray-700 hover:bg-gray-100 active:bg-gray-200",
+            isActive || isParentActive
+              ? "bg-[#2E008F] text-white shadow-md"
+              : "text-gray-700 hover:bg-gray-100 active:bg-gray-200",
             "group",
           )}
         >
           <div className="flex items-center gap-3">
-            <span className={cn(isActive ? "text-white" : "text-gray-600 group-hover:text-[#2E008F]")}>
+            <span
+              className={cn(isActive || isParentActive ? "text-white" : "text-gray-600 group-hover:text-[#2E008F]")}
+            >
               {item.icon}
             </span>
             <span className="text-pretty">{item.label}</span>
@@ -178,7 +273,7 @@ export default function TecxonSidebar() {
               className={cn(
                 "w-4 h-4 transition-transform duration-300",
                 isExpanded ? "rotate-180" : "",
-                isActive ? "text-white" : "text-gray-600",
+                isActive || isParentActive ? "text-white" : "text-gray-600",
               )}
             />
           )}
